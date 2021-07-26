@@ -1,7 +1,12 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom';
+import {toast} from 'react-toastify'
 
 function Cart(props) {
     var Carts = JSON.parse(localStorage.getItem('items'));
+    var User = JSON.parse(localStorage.getItem('user'))
+    var Token = localStorage.getItem("jwt")
+    const history = useHistory()
     if(Carts){
 
         var NCart = [...new Map(Carts.map(item => [item._id, item])).values()]
@@ -12,10 +17,7 @@ function Cart(props) {
     
     return (
         <>
-        {
-            Carts
-            ?
-        <>
+        
 
         <div className="cartContainer">
         <div className="cartheading">
@@ -25,6 +27,8 @@ function Cart(props) {
         </div>
         
         {
+            Carts
+            ?
             NCart.map(({title,price,photo,category,_id},i)=>{
                 var Quantity = Carts.filter((f)=> f._id === _id).length
                 PrQuantity.push({
@@ -54,6 +58,10 @@ function Cart(props) {
                     </div>
                 )
             })
+            :
+            <>
+            <h1 style={{fontSize:"30px"}}>You Cart is empty <a href="/" style={{color:"#ee3364"}} >Shop Something</a> </h1>
+            </>
         }
         
     
@@ -62,10 +70,15 @@ function Cart(props) {
         
       </div>
       <hr />
-      <div id="summary">
+      {
+          Carts
+          ?
+          <>
+          <div id="summary">
       {/* {console.log("total", TotalPrice.reduce((a, b) => a + b, 0))} */}
         <h2>Cart totals</h2>
         {
+            
             NCart.map(({title,price,photo,category,_id},i)=>{
                 var Quantity = Carts.filter((f)=> f._id === _id).length
                 PrQuantity.push({
@@ -92,15 +105,33 @@ function Cart(props) {
           } </span></strong>
         </div>
         <hr />
-        <button>PROCEED TO CHECKOUT</button>
+        <button onClick={()=>{
+            if(!User && !Token){
+                
+                toast.error("You need to Login", {
+            position: "bottom-right",
+            autoClose: 5000,
+            pauseOnHover: true,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: true,
+            progress: undefined,
+            });
+            }else{
+                console.log(Carts)
+                history.push('/checkout')
+            }
+        }} >PROCEED TO CHECKOUT</button>
       </div>
-      </>
-
-      :
-
-      <h2>Cart is empety</h2>
-        }
+      
         <br /><br />
+          </>
+          :
+          <>
+          <br /><br /><br /><br /><br /><br /><br />
+          </>
+      }
+      
 
 </>
     )

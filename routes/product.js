@@ -44,13 +44,15 @@ router.get('/users',(req,res)=>{
     })
 })
 
-router.get('/chekout',(req,res)=>{
-    // const userId = "60f5b1c3df931b94733149f0"
-    // const CData = [{items:["1","2","3"],status:"Ongoing",discount:"TRYNEW",payment:"Done",id:"909"}]
+router.post('/chekout/:id',(req,res)=>{
+    const userId = req.params.id
+    const data = req.body
+    
+    // const CData = req.body.item
     // const AData = [{address:"nahri k naka",state:"rajasthan",city:"jaipur",pin:"12345"}]
-    const {CData,AData,userId} = req.body
+    // const {CData,userId} = req.body
     User.findByIdAndUpdate(userId,
-    { "$push": { "order": CData,"details":AData } },
+    { "$push": { "order": data } },
     { "new": true, "upsert": true },
     function (err, managerparent) {
         if (err) throw err;

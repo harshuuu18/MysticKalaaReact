@@ -14,10 +14,13 @@ import AddProduct from './components/admin/AddProduct';
 import { createContext, useEffect, useState } from 'react';
 import Contact from './components/Home/Contact';
 import Footer from './components/Home/Footer';
-import { toast } from 'react-toastify';
+import { toast,ToastContainer } from 'react-toastify';
+import Checkout from './components/LoginSignup/Checkout';
+import AdminHome from './components/admin/AdminHome';
 export const productData = createContext()
 function App() {
   const [data,setData] = useState([])
+  
   // localStorage.setItem('items',[{}])
   var NavCart = localStorage.getItem('items')
 
@@ -37,8 +40,11 @@ function App() {
         console.log(err)
       }
     }
+    
     fetchData()
   },[])
+
+  
   const AddToCart = ({title,price,photo,category,_id})=>{
         if(localStorage.getItem('items')){
             Carts = JSON.parse(localStorage.getItem('items'));
@@ -72,10 +78,12 @@ function App() {
         setCartLen(FreshCart.length)
         
   }
+
+  
   return (
     <BrowserRouter>
     <productData.Provider value={data}>
-
+    <ToastContainer></ToastContainer>
       <TopNav cartLen={cartLen} />
       <Route exact path="/">
       <Banner />
@@ -100,6 +108,9 @@ function App() {
       <Route path="/signup" >
       <Signup />
       </Route>
+      <Route path="/checkout" >
+      <Checkout />
+      </Route>
       <Route path="/cart" >
       <Cart AddToCart={({title,price,photo,category,_id})=>{
         AddToCart({title,price,photo,category,_id})
@@ -111,6 +122,9 @@ function App() {
       </Route>
       <Route  path="/admin/addproduct" >
       <AddProduct />
+      </Route>
+      <Route  path="/admin" >
+      <AdminHome />
       </Route>
       <Footer />
     </productData.Provider>
