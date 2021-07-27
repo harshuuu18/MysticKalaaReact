@@ -63,20 +63,23 @@ router.post('/chekout/:id',(req,res)=>{
 
 })
 
-router.get('/updatestatus',(req,res)=>{
-    const personQuery = {
-       _id: "60f5b1c3df931b94733149f0"  
-    }
+router.post('/updatestatus',(req,res)=>{
+    var UserId = req.body.userId
+    var OrderId = req.body.itemId
+    var Status = req.body.status
+    // const personQuery = {
+    //    _id: "60f5b1c3df931b94733149f0"  
+    // }
 
-    const itemID = "909";
+    // const itemID = "909";
 
-    User.findOne(personQuery).then(item => {
-        const audioIndex = item.order.map(i => i.id).indexOf(itemID);
-       item.order[audioIndex].status = "Not done";
+    User.findOne({_id:UserId}).then(item => {
+        const audioIndex = item.order.map(i => i.id).indexOf(OrderId);
+       item.order[audioIndex].status = Status;
        item.markModified('order');
        item.save()
        .then(user=>{
-                res.json({message:"saved successfully",user})
+                res.json({message:"Updated successfully",user})
                 })
             .catch(err=>{
             console.log(err)

@@ -28,7 +28,7 @@ function Products(props) {
                     
             
                     <div className="card" key={_id} >
-                        <div className="cardimg"></div>
+                        <div className="cardimg" style={{backgroundImage:`url(${photo})`}}  ></div>
                         <h6>{title} </h6>
                         <div className="info"><span>SS 599</span><button onClick={()=>props.AddToCart({title,price,photo,category,_id})} >Add to cart</button></div>
                     </div>

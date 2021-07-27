@@ -28,6 +28,9 @@ function App() {
   const [cartLen,setCartLen] = useState(NavCart ? TopNavCart.length : 0)
   var Carts = []
   useEffect(()=>{
+    if(!TopNavCart){
+      localStorage.setItem('items',JSON.stringify([]))
+    }
     async function fetchData(){
       
       try{
@@ -120,10 +123,10 @@ function App() {
       }}
        />
       </Route>
-      <Route  path="/admin/addproduct" >
+      <Route  path="/admin/:name/addproduct" >
       <AddProduct />
       </Route>
-      <Route  path="/admin" >
+      <Route exact path="/admin/:name" >
       <AdminHome />
       </Route>
       <Footer />
