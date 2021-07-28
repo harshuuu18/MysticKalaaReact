@@ -87,5 +87,29 @@ router.post('/updatestatus',(req,res)=>{
                 });
 })
 
+router.post('/paymentstatus',(req,res)=>{
+    var UserId = req.body.userId
+    var OrderId = req.body.itemId
+    var Status = req.body.status
+    // const personQuery = {
+    //    _id: "60f5b1c3df931b94733149f0"  
+    // }
+
+    // const itemID = "909";
+
+    User.findOne({_id:UserId}).then(item => {
+        const audioIndex = item.order.map(i => i.id).indexOf(OrderId);
+       item.order[audioIndex].payment = Status;
+       item.markModified('order');
+       item.save()
+       .then(user=>{
+                res.json({message:"Updated successfully",user})
+                })
+            .catch(err=>{
+            console.log(err)
+            })
+                });
+})
+
 
 module.exports = router

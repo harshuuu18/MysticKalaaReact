@@ -40,10 +40,11 @@ function Checkout() {
             draggable: true,
             progress: undefined,
             });
+            localStorage.setItem('items',JSON.stringify([]))
     }
 
     return (
-        <div>
+        <div className="checkout-hr-div" >
         <ToastContainer></ToastContainer>
             <div className="py-12">
                 <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg md:max-w-xl mx-2">
@@ -78,6 +79,15 @@ function Checkout() {
                         </div>
                     </div>
                 </div>
+                </div>
+                <div className="qr-div">
+                        <div className="qr-image"></div>
+                        <h1>99833252672</h1>
+                        <div className="qr-info">
+                            Scan the QR code to Confirme the payment and Send the Screen Shot to our 
+                           <a href="https://api.whatsapp.com/send?phone=916363036395&text=Hey%2C%20Here%20is%20my%20Payment%20Screen%20Shot%F0%9F%98%8A" style={{color:'green'}}> Whatsapp no.</a>
+                            
+                        </div>
                 </div>
         </div>
 

@@ -28,7 +28,7 @@ function TopNav({cartLen}) {
         </div>
         <div className="links">
           <a href="/">Home</a>
-          <a href="/c/:id">Shop Now</a>
+          <a href="#categories">Shop Now</a>
           <a href="#about">About</a>
           <a href={(user && token) ? "/cart" : "/login" }>
             {

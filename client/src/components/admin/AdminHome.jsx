@@ -65,6 +65,35 @@ function AdminHome() {
             console.log(err)
         }
     }
+
+    const UpdatePaymentStatus = async({id,_id})=>{
+        try{
+            const response = await fetch('/paymentstatus',{
+                method: "POST",
+                headers:{"Content-Type":"application/json"},
+                body: JSON.stringify({
+                    userId:_id,
+                    itemId: id,
+                    status:"Done"
+                })
+            })
+            const data = await response.json()
+            setIsUpdated(true)
+            toast.success("Status Updated", {
+                position: "bottom-right",
+                autoClose: 5000,
+                pauseOnHover: true,
+                hideProgressBar: false,
+                closeOnClick: true,
+                draggable: true,
+                progress: undefined,
+                });
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
+
     return (
         <div className="orderContainer">
         <a href={`/admin/${param.name}/addproduct`}>
@@ -91,14 +120,14 @@ function AdminHome() {
                                 {/* console.log(order) */}
                                 const NewAdminData = order.filter((f)=> {return f.status !== "Completed"})
                                 return(
-                                    <>
+                                    <React.Fragment key={_id}>
                                     {
                                         NewAdminData.map(({details,discount,id,items,payment,status})=>{
                                     
                                     var item = [...new Map(items.map(item => [item._id, item])).values()]
                                             
                                             return (
-                                                <tr>
+                                                <tr key={id}>
                             <td className="border px-4 py-2 text-green-900">
                                 <p onClick={()=>{
                                     setIsOpened(true)
@@ -149,13 +178,16 @@ function AdminHome() {
                             </td>
                             <td className="border px-4 py-2">
                                 {payment}
+                                <button type="button"
+                                        onClick={()=>UpdatePaymentStatus({id,_id})}
+                                         style={{backgroundColor:'#EE3364',width:'50px',height:"20px",marginLeft:"10px"}} className="h-12  font-medium text-xs text-white"  >Done</button>
                             </td>
                         </tr>
                                             )
                                         })
                                     }
                                     
-                        </>
+                        </ React.Fragment>
                                 )
                             })
                         }
@@ -168,6 +200,8 @@ function AdminHome() {
 
         <div className="modal" style={ isOpened ? {display:'flex'} : {display:'none'}} onClick={()=>setIsOpened(false)} >
             <div className="acutal-modal">
+            <div className="actual-modal-up">
+
                 {
                     filteredOrderData.map(({category,photo,price,title,_id})=>{
                         var Quantity = orderData.filter((f)=> f._id === _id).length
@@ -177,14 +211,24 @@ function AdminHome() {
                 })
                 TotalPrice.push(parseInt(price)*Quantity)
                         return(
-                            <div>
-                                {"here will be all ordered products"}
-                                {"product title image price"} {"qantity"}
+                            
+                            <div key={_id} className="admin-product-modal" >
+                                <img src={photo} alt="" />
+                                <h4>{title} </h4>
+                                <p>{price} </p>
                             </div>
+                                                        
                         )
                     })
                 }
-                
+                </div>
+                <div className="admin-total-price">
+                    <h1> Total Price:</h1>
+
+                    <span>
+                        {TotalPrice.reduce((a, b) => a + b, 0)}
+                    </span>
+                </div>
                     {/* Total Price */}
                     {/* TotalPrice.reduce((a, b) => a + b, 0) */}
                 
