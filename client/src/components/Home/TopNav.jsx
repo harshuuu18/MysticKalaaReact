@@ -21,16 +21,16 @@ function TopNav({cartLen}) {
     return (
         <>
             <nav>
+        <a href="/" style={{textDecoration:'none',color:'black'}}>
         <div className="logo">
+
           <img src={Logo1} alt="" />
           <h5>Mystic<span>कला</span></h5>
           
         </div>
+        </a>
         <div className="links">
-          <a href="/">Home</a>
-          <a href="#categories">Shop Now</a>
-          <a href="#about">About</a>
-          <a href={(user && token) ? "/cart" : "/login" }>
+            <a href={(user && token) ? "/cart" : "/login" }>
             {
               (user && token)
               ?

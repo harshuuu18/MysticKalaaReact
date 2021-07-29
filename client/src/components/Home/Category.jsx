@@ -4,7 +4,7 @@ import { productData } from '../../App'
 
 function Category() {
     const categoryData = useContext(productData)
-    const Data = [...new Set(categoryData.map((i)=>{return i.category}))]
+    const Data = [...new Set(categoryData.map(({category,photo})=>{return {category, photo}}))]
     
     return (
       
@@ -13,13 +13,12 @@ function Category() {
       <div className="container">
       {
         Data.map((i,index)=>{
-          
+            
           return(
             <div className="card" key={index} >
-              <a href={`/c/${i}`} >
-              <div className="cardImg" ></div>
-
-              <h6>{i} </h6>
+              <a href={`/c/${i.category}`} >
+              <div className="cardImg" style={{backgroundImage:`url(${i.photo})`}} ></div>
+              <h6>{i.category} </h6>
               </a>            
             </div>
           )

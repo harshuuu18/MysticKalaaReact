@@ -300,6 +300,9 @@ footer {
 	width: 250px;
 	justify-content: space-around;
 }
+.social a {
+	text-decoration: none;
+}
 .social i {
 	color: white;
 	font-size: 1.7rem;
